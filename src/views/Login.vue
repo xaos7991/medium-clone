@@ -45,7 +45,7 @@
 <script>
 import {mapState} from 'vuex'
 
-import McvValidationErrors from '@/components/validationErrors'
+import McvValidationErrors from '@/components/ValidationErrors'
 import {actionTypes} from '@/store/modules/auth'
 
 export default {
