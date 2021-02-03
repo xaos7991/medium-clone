@@ -1,8 +1,12 @@
 <template>
   <div>
-    <div v-if="isLoading">Loading...</div>
+    <mcv-loading v-if="isLoading" />
 
-    <div v-if="error">Something bad happened</div>
+    <mvc-error-message v-if="error" />
+
+    <p v-if="!isLoading && feed && !feed.articles.length">
+      No articles are here... yet.
+    </p>
 
     <div v-if="feed">
       <div
@@ -38,7 +42,7 @@
             <h1 class="m-t-1">{{ article.title }}</h1>
             <p>{{ article.description }}</p>
             <span>Read more...</span>
-            TAG LIST
+            <mcv-tag-list :tags="article.tagList" />
           </router-link>
         </div>
       </div>
@@ -55,9 +59,12 @@
 <script>
 import {mapState} from 'vuex'
 import {actionTypes} from '@/store/modules/feed'
-import McvPagination from '@/components/Pagination'
 import {limit} from '@/helpers/vars'
 import {stringify, parseUrl} from 'query-string'
+import McvPagination from '@/components/Pagination'
+import McvLoading from '@/components/Loading'
+import MvcErrorMessage from '@/components/ErrorMessage'
+import McvTagList from '@/components/TagList'
 
 export default {
   name: 'McvFeed',
@@ -68,7 +75,10 @@ export default {
     }
   },
   components: {
-    McvPagination
+    McvPagination,
+    McvLoading,
+    MvcErrorMessage,
+    McvTagList
   },
   data() {
     return {
